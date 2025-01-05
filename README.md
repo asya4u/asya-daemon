@@ -68,7 +68,7 @@
       ```
 ### Build
 ```sh
-cargo run
+cargo install --git https://github.com/asya4u/asya-daemon
 ```
 ### NixOS
 
