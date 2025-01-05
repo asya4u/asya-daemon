@@ -1,4 +1,4 @@
-use log::*;
+use tracing::*;
 use macros::Stringify;
 use serde::{Deserialize, Serialize};
 

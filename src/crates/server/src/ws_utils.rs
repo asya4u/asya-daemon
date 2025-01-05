@@ -3,7 +3,7 @@ use std::sync::Arc;
 use actix_web::{rt, web, Error, HttpRequest, HttpResponse};
 use actix_ws::{AggregatedMessage, Session};
 use futures_util::StreamExt;
-use log::{info, warn};
+use tracing::*;
 use shared::event_system;
 use tokio::{sync::RwLock, task};
 use usecases::AsyaResponse;

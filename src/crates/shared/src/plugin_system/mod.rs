@@ -1,5 +1,5 @@
 use libloading::Library;
-use log::*;
+use tracing::*;
 use plugin_interface::{EventState, PluginInformation, State};
 use serde::Serialize;
 use std::{

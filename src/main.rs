@@ -1,8 +1,6 @@
 use shared::{event_system, plugin_system};
 use tokio::{join, sync::Mutex};
-
-#[macro_use]
-extern crate log;
+use tracing::info;
 
 mod logging;
 mod preview;

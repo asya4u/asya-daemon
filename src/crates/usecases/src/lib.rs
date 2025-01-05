@@ -1,5 +1,5 @@
 use crate::usecases::Usecases;
-use log::*;
+use tracing::*;
 use serde::Serialize;
 use services::llm_api;
 use shared::event_system;

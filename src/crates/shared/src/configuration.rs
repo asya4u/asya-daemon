@@ -2,12 +2,12 @@
 
 use macros::Property;
 use serde::{Deserialize, Serialize};
+use tracing::level_filters::LevelFilter;
 use std::{collections::HashMap, fmt::Debug};
 
 use crate::types::AiRecognizeMethod;
 use homedir::my_home;
 use lazy_static::lazy_static;
-use log::LevelFilter;
 use mlua::{Lua, Table, ToLua};
 
 lazy_static! {
@@ -148,8 +148,8 @@ pub struct Logging {
     #[property(default)]
     pub place: bool,
 
-    #[property(default(LevelFilter::Info))]
-    pub level: LevelFilter,
+    #[property(default(LogginLevel::Info))]
+    pub level: LogginLevel,
 
     #[property(default("./logs".to_string()))]
     pub folder: String,
@@ -159,6 +159,27 @@ pub struct Logging {
 
     #[property(default(true))]
     pub stdout: bool,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub enum LogginLevel {
+    Error,
+    Warn,
+    Info,
+    Debug,
+    Trace,
+}
+
+impl From<LogginLevel> for LevelFilter {
+    fn from(val: LogginLevel) -> Self {
+        match val {
+            LogginLevel::Error => LevelFilter::ERROR,
+            LogginLevel::Warn => LevelFilter::WARN,
+            LogginLevel::Info => LevelFilter::INFO,
+            LogginLevel::Debug => LevelFilter::DEBUG,
+            LogginLevel::Trace => LevelFilter::TRACE,
+        }
+    }
 }
 
 #[derive(Debug, Property)]

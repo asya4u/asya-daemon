@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 use std::ffi::{c_char, CString};
 
-use log::warn;
+use tracing::*;
 use plugin_interface::ApiCallbacks;
 
 use crate::event_system;
