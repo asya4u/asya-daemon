@@ -36,41 +36,6 @@
   ---
 </div>
 
-
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#🛠️-build">🛠️ Build</a>
-      <ul>
-        <li><a href="#unix">Unix</a>
-          <ul>
-            <li><a href="#install-dependencies">Install dependencies</a></li>
-            <li><a href="#build">Build</a></li>
-          </ul>
-        </li>
-        <li><a href="#nixos">NixOS</a>
-          <ul>
-            <li><a href="#build-flake">Build flake</a></li>
-            <li><a href="#run-environment">Run environment</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#🐳-usage">🐳 Usage</a></li>
-    <li>
-      <a href="#🎁-contributing">🎁 Contributing</a>
-      <ul>
-        <li><a href="#top-contributors">Top contributors</a></li>
-      </ul>
-    </li>
-    <li><a href="#🧑‍⚖️-license">🧑‍⚖️ License</a></li>
-  </ol>
-</details>
-
-
 # 🛠️ Build
 
 ## Unix
