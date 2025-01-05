@@ -161,7 +161,7 @@ pub struct Logging {
 }
 
 #[derive(Debug, Clone, Deserialize)]
-#[serde(from = "String")
+#[serde(from = "String")]
 pub enum LogginLevel {
     Error,
     Warn,
@@ -170,14 +170,15 @@ pub enum LogginLevel {
     Trace,
 }
 
-impl From<String> for LoggingLevel {
+impl From<String> for LogginLevel {
     fn from(value: String) -> Self {
-        match value.as_str().to_lowercase() {
-            "error" => LoggingLevel::Error,
-            "warn" => LoggingLevel::Warn,
-            "info" => LoggingLevel::Info,
-            "debug" => LoggingLevel::Debug,
-            "trace" => LoggingLevel::Trace,
+        match value.as_str().to_lowercase().as_str() {
+            "error" => LogginLevel::Error,
+            "warn" => LogginLevel::Warn,
+            "info" => LogginLevel::Info,
+            "debug" => LogginLevel::Debug,
+            "trace" => LogginLevel::Trace,
+            _ => panic!("Cannot recognize logging level: {}", value),
         }
     }
 }
