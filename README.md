@@ -41,10 +41,7 @@
 ## Unix
 
 ### Install dependencies:
-  * For all distros use [rustup](https://rustup.rs) for installing rust:
-      ```sh
-      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-      ```
+  * For all distros use [rustup](https://rustup.rs) as recommended way to use cargo package manager.
 
   * Debian-based
       ```sh
