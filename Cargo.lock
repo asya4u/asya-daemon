@@ -1517,16 +1517,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "mlua_serde"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0e7add20c65a2526221d66a1d7f0cb5396532cd37235333d77867529f8fcc585"
-dependencies = [
- "mlua",
- "serde",
-]
-
-[[package]]
 name = "multimap"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2401,7 +2391,6 @@ dependencies = [
  "macros",
  "merge-struct",
  "mlua",
- "mlua_serde",
  "multimap",
  "plugin_interface",
  "queues",

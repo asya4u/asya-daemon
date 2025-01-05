@@ -1,6 +1,7 @@
 local config = {
   net = {
-    http_port = 3001,
+    ws_port = 3001,
+    ws_ip = "127.0.0.1"
   },
 
   logging = {

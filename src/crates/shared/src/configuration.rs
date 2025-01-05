@@ -8,7 +8,11 @@ use tracing::level_filters::LevelFilter;
 use crate::types::AiRecognizeMethod;
 use homedir::my_home;
 use lazy_static::lazy_static;
-use mlua::{Lua, Table, ToLua};
+use log::LevelFilter;
+use mlua::{Lua, Table, ToLua, Value};
+
+use crate::de;
+use crate::error::Error;
 
 lazy_static! {
     pub static ref CONFIG: Config = {
@@ -27,7 +31,7 @@ lazy_static! {
                     .expect("Lua configuration file must be correct to evaluate");
 
                 let config: ConfigProperty =
-                    mlua_serde::from_value(config_lua.to_lua(&lua).unwrap())
+                    from_value(config_lua.to_lua(&lua).unwrap())
                         .expect("Lua config table must be correct to desiralize into Rust struct");
 
                 config
@@ -40,6 +44,11 @@ lazy_static! {
         merged_config.verify().unwrap();
         merged_config.unwrap_or_default()
     };
+}
+
+pub fn from_value<'de, T: serde::Deserialize<'de>>(value: Value<'de>) -> Result<T, Error> {
+    let deserializer = de::Deserializer { value };
+    Ok(T::deserialize(deserializer)?)
 }
 
 pub fn load_any_file(pathes: Vec<String>) -> Option<(String, String)> {
@@ -136,7 +145,10 @@ pub struct Ai {
 #[property(name(NetProperty), derive(Deserialize, Default, Clone))]
 pub struct Net {
     #[property(default)]
-    pub http_port: u16,
+    pub ws_port: u16,
+
+    #[property(default("127.0.0.1".to_string()))]
+    pub ws_ip: String,
 
     #[property(default)]
     pub proxy_addr: String, // todo

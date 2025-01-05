@@ -9,7 +9,7 @@ mod ws_utils;
 pub async fn start() -> std::io::Result<()> {
     HttpServer::new(routing::route_all)
         .disable_signals()
-        .bind(("127.0.0.1", CONFIG.net.http_port))?
+        .bind((CONFIG.net.ws_ip.clone(), CONFIG.net.ws_port))?
         .run()
         .await
 }

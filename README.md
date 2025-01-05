@@ -36,52 +36,38 @@
   ---
 </div>
 
+# 🐳 Getting started
 
+## Unix
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-  </ol>
-</details>
+### Install dependencies:
+  * For all distros use [rustup](https://rustup.rs) as recommended way to use cargo package manager.
 
-
-<!-- GETTING STARTED -->
-## 🌟 Getting Started
-
-To get a local copy up and running follow these simple example steps.
-
-### Installation
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/asya4u/asya-daemon
-   ```
-2. Build projects
-   ```sh
-   cargo build
-   ```
-
-### 🛠️ Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* Run server
-  ```sh
-  cargo run
-  ```
+  * Debian-based
+      ```sh
+      sudo apt update
+      sudo apt install -y luajit pkg-config libssl-dev
+      ```
+      
+  * Fedora 
+      ```sh
+      sudo dnf install -y luajit pkgconf-pkg-config openssl-devel
+      ```
+  * Arch-based
+      ```sh
+      sudo pacman -Syu
+      sudo pacman -S --noconfirm luajit pkgconf openssl
+      ```
+  * macOS:
+      ```sh
+      brew update
+      brew install luajit pkg-config openssl
+      ```
+### Build
+```sh
+cargo install --git https://github.com/asya4u/asya-daemon
+```
+### NixOS
 
   If you use package manager nix you can run project using nix-shell.
 
@@ -100,9 +86,6 @@ This is an example of how to list things you need to use the software and how to
 ## 🐳 Usage
 
 All that remains is to wait :)
-
-
-
 
 <!-- CONTRIBUTING -->
 ## 🎁 Contributing
