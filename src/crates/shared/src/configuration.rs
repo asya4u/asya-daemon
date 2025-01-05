@@ -147,8 +147,8 @@ pub struct Net {
 #[derive(Debug, Property)]
 #[property(name(LoggingProperty), derive(Deserialize, Default, Clone))]
 pub struct Logging {
-    #[property(default(LogginLevel::Info))]
-    pub level: LogginLevel,
+    #[property(default(LoggingLevel::Info))]
+    pub level: LoggingLevel,
 
     #[property(default("./logs".to_string()))]
     pub folder: String,
@@ -162,7 +162,7 @@ pub struct Logging {
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(from = "String")]
-pub enum LogginLevel {
+pub enum LoggingLevel {
     Error,
     Warn,
     Info,
@@ -170,27 +170,27 @@ pub enum LogginLevel {
     Trace,
 }
 
-impl From<String> for LogginLevel {
+impl From<String> for LoggingLevel {
     fn from(value: String) -> Self {
         match value.as_str().to_lowercase().as_str() {
-            "error" => LogginLevel::Error,
-            "warn" => LogginLevel::Warn,
-            "info" => LogginLevel::Info,
-            "debug" => LogginLevel::Debug,
-            "trace" => LogginLevel::Trace,
+            "error" => LoggingLevel::Error,
+            "warn" => LoggingLevel::Warn,
+            "info" => LoggingLevel::Info,
+            "debug" => LoggingLevel::Debug,
+            "trace" => LoggingLevel::Trace,
             _ => panic!("Cannot recognize logging level: {}", value),
         }
     }
 }
 
-impl LogginLevel {
+impl LoggingLevel {
     pub fn as_str(&self) -> &'static str {
         match self {
-            LogginLevel::Error => "error",
-            LogginLevel::Warn => "warn",
-            LogginLevel::Info => "info",
-            LogginLevel::Debug => "debug",
-            LogginLevel::Trace => "trace",
+            LoggingLevel::Error => "error",
+            LoggingLevel::Warn => "warn",
+            LoggingLevel::Info => "info",
+            LoggingLevel::Debug => "debug",
+            LoggingLevel::Trace => "trace",
         }
     }
 }

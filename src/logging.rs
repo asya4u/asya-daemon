@@ -5,7 +5,7 @@ use std::{
 use tracing::*;
 use tracing_subscriber::EnvFilter;
 
-use shared::configuration::{LogginLevel, CONFIG};
+use shared::configuration::{LoggingLevel, CONFIG};
 use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
 
 pub fn init_logging() {
@@ -26,7 +26,7 @@ pub fn init_logging() {
         sub.init();
     };
 
-    if let LogginLevel::Trace = CONFIG.logging.level {
+    if let LoggingLevel::Trace = CONFIG.logging.level {
         trace!("Check logging level.");
         debug!("Check logging level.");
         info!("Check logging level.");
