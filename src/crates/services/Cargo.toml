@@ -7,11 +7,7 @@ edition = "2021"
 path = "./src/lib.rs"
 
 [dependencies]
-[target.'cfg(unix)'.dependencies]
-mpris = "2.0.0"
 
-[target.'cfg(windows)'.dependencies]
-winapi = { version = "0.3", features = ["combaseapi", "objbase", "winnls","winuser"] }
 shared = { path = "../shared/" }
 
 tracing = "0.1"
@@ -41,6 +37,12 @@ rand = "0.8.5"
 queues = "1.1.0"
 regex = "1.11.1"
 bytes = "1.7.1"
+
+[target.'cfg(unix)'.dependencies]
+mpris = "2.0.0"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["combaseapi", "objbase", "winnls","winuser"] }
 
 [dev-dependencies]
 criterion = { version = "0.5.1", features = ["html_reports"] }
