@@ -1,16 +1,34 @@
 use std::{
-    fs::{self, File}, io, path::Path
+    fs::{self, File},
+    path::Path,
 };
+use tracing::*;
+use tracing_subscriber::EnvFilter;
 
-use shared::configuration::CONFIG;
+use shared::configuration::{LogginLevel, CONFIG};
+use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
 
 pub fn init_logging() {
-    tracing_subscriber::fmt()
-        .pretty()
-        .with_writer(make_writer())
-        .with_writer(io::stdout)
-        .with_max_level(CONFIG.logging.level.clone())
+    let console_layer = fmt::layer().with_writer(std::io::stdout).pretty();
+    let file_layer = fmt::layer().with_writer(make_writer()).with_ansi(false);
+
+    let env_filter = EnvFilter::from_default_env()
+        .add_directive(CONFIG.logging.level.as_str().parse().unwrap())
+        .add_directive("other_module=warn".parse().unwrap());
+
+    tracing_subscriber::registry()
+        .with(env_filter)
+        .with(console_layer)
+        .with(file_layer)
         .init();
+
+    if let LogginLevel::Trace = CONFIG.logging.level {
+        trace!("Check logging level.");
+        debug!("Check logging level.");
+        info!("Check logging level.");
+        warn!("Check logging level.");
+        error!("Check logging level.");
+    }
 }
 
 fn make_writer() -> File {

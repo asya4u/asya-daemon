@@ -2,8 +2,8 @@
 
 use macros::Property;
 use serde::{Deserialize, Serialize};
-use tracing::level_filters::LevelFilter;
 use std::{collections::HashMap, fmt::Debug};
+use tracing::level_filters::LevelFilter;
 
 use crate::types::AiRecognizeMethod;
 use homedir::my_home;
@@ -170,14 +170,14 @@ pub enum LogginLevel {
     Trace,
 }
 
-impl From<LogginLevel> for LevelFilter {
-    fn from(val: LogginLevel) -> Self {
-        match val {
-            LogginLevel::Error => LevelFilter::ERROR,
-            LogginLevel::Warn => LevelFilter::WARN,
-            LogginLevel::Info => LevelFilter::INFO,
-            LogginLevel::Debug => LevelFilter::DEBUG,
-            LogginLevel::Trace => LevelFilter::TRACE,
+impl LogginLevel {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            LogginLevel::Error => "error",
+            LogginLevel::Warn => "warn",
+            LogginLevel::Info => "info",
+            LogginLevel::Debug => "debug",
+            LogginLevel::Trace => "trace",
         }
     }
 }

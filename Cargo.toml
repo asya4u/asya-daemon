@@ -27,7 +27,8 @@ macros = { path = "src/crates/macros" }
 usecases = { path = "src/crates/usecases" }
 
 tracing = "0.1"
-tracing-subscriber = "0.3"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tracing-appender = "0.2"
 
 ctrlc = "3.4.5"
 tokio = { version = "1.39.2", features = ["full"] }
