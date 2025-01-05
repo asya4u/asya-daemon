@@ -59,29 +59,41 @@
 </details>
 
 
-<!-- GETTING STARTED -->
-## 🌟 Getting Started
+### 🛠️ Build
 
-To get a local copy up and running follow these simple example steps.
+## Unix
 
-### Installation
+### Install dependencies:
+  * For all distros use [rustup](https://rustup.rs) for installing rust:
+      ```sh
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+      ```
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/asya4u/asya-daemon
-   ```
-2. Build projects
-   ```sh
-   cargo build
-   ```
-
-### 🛠️ Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* Run server
-  ```sh
-  cargo run
-  ```
+  * Debian-based
+      ```sh
+      sudo apt update
+      sudo apt install -y luajit pkg-config libssl-dev
+      ```
+      
+  * Fedora 
+      ```sh
+      sudo dnf install -y luajit pkgconf-pkg-config openssl-devel
+      ```
+  * Arch-based
+      ```sh
+      sudo pacman -Syu
+      sudo pacman -S --noconfirm luajit pkgconf openssl
+      ```
+  * macOS:
+      ```sh
+      brew update
+      brew install luajit pkg-config openssl
+      ```
+### Build
+```sh
+cargo run
+```
+### NixOS
 
   If you use package manager nix you can run project using nix-shell.
 
@@ -100,9 +112,6 @@ This is an example of how to list things you need to use the software and how to
 ## 🐳 Usage
 
 All that remains is to wait :)
-
-
-
 
 <!-- CONTRIBUTING -->
 ## 🎁 Contributing
