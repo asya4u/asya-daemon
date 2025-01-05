@@ -49,9 +49,13 @@ impl Beautify for TrackInfo {
 
 #[derive(Debug)]
 pub enum MediaPlayingStatus {
+    /// Media is currently playing.
     Playing(TrackInfo),
+    /// Media is currently paused.
     Paused(TrackInfo),
+    /// Media is currently stopped.
     Stopped,
+    /// Maybe media is currently destroyed.
     Unknown,
 }
 
@@ -70,60 +74,51 @@ impl Display for MediaPlayingStatus {
 // Implementation for Linux (MPRIS)
 // =======================================
 #[cfg(target_family = "unix")]
-use mpris::{PlayerFinder, Player};
-#[cfg(target_family = "unix")]
-use std::error::Error;
-
-#[cfg(target_family = "unix")]
-fn get_player() -> Result<Player, Box<dyn Error>> {
-    let finder = PlayerFinder::new()?;
-    let player = finder.find_active()?;
-    Ok(player)
-}
-
-#[cfg(target_family = "unix")]
 pub fn play_pause() {
-    if let Ok(player) = get_player() {
-        let _ = player.play_pause();
-    }
+    shell::execute_command(vec!["playerctl", "play-pause"]);
 }
 
 #[cfg(target_family = "unix")]
 pub fn get_status() -> MediaPlayingStatus {
-    if let Ok(player) = get_player() {
-        let metadata = player.get_metadata().ok();
-        let track_info = TrackInfo {
-            title: metadata.as_ref().and_then(|m| m.title().map(|s| s.to_string())),
-            artist: metadata.as_ref().and_then(|m| m.artists().map(|a| a.join(", "))),
-            album: metadata.as_ref().and_then(|m| m.album_name().map(|s| s.to_string())),
-        };
+    let status_opt = shell::execute_command(vec!["playerctl", "status"]);
 
-        match player.get_playback_status().unwrap_or_default() {
-            mpris::PlaybackStatus::Playing => MediaPlayingStatus::Playing(track_info),
-            mpris::PlaybackStatus::Paused => MediaPlayingStatus::Paused(track_info),
-            mpris::PlaybackStatus::Stopped => MediaPlayingStatus::Stopped,
-        }
-    } else {
-        MediaPlayingStatus::Unknown
+    let track_info = TrackInfo {
+        title: pctl_metadat_prop("title"),
+        artist: pctl_metadat_prop("artist"),
+        album: pctl_metadat_prop("album"),
+    };
+
+    match status_opt {
+        Some(status) => match status.as_str().trim() {
+            "Playing" => MediaPlayingStatus::Playing(track_info),
+            "Paused" => MediaPlayingStatus::Paused(track_info),
+            "Stopped" => MediaPlayingStatus::Stopped,
+            _ => MediaPlayingStatus::Unknown,
+        },
+        None => todo!(),
     }
 }
 
 #[cfg(target_family = "unix")]
-pub fn play_next() -> Result<(), String> {
-    if let Ok(player) = get_player() {
-        player.next().map_err(|e| e.to_string())
+pub fn play_next() {
+    shell::execute_command(vec!["playerctl", "next"]).expect("playerctl next caused error");
+}
+
+#[cfg(target_family = "unix")]
+fn pctl_metadat_prop(prop: &str) -> Option<String> {
+    let prop_formatted = format!("{{{{{}}}}}", prop);
+    let query = vec!["playerctl", "metadata", "--format", prop_formatted.as_str()];
+    let prop_res = shell::execute_command(query).unwrap();
+    if prop_res.trim().is_empty() {
+        None
     } else {
-        Err("Player not found".to_string())
+        Some(prop_res)
     }
 }
 
 #[cfg(target_family = "unix")]
-pub fn play_prev() -> Result<(), String> {
-    if let Ok(player) = get_player() {
-        player.previous().map_err(|e| e.to_string())
-    } else {
-        Err("Player not found".to_string())
-    }
+pub fn play_prev() {
+    shell::execute_command(vec!["playerctl", "previous"]).expect("playerctl prev caused error");
 }
 
 // =======================================
