@@ -16,11 +16,15 @@ pub fn init_logging() {
         .add_directive(CONFIG.logging.level.as_str().parse().unwrap())
         .add_directive("other_module=warn".parse().unwrap());
 
-    tracing_subscriber::registry()
+    let sub = tracing_subscriber::registry()
         .with(env_filter)
-        .with(console_layer)
-        .with(file_layer)
-        .init();
+        .with(file_layer);
+
+    if CONFIG.logging.stdout {
+        sub.with(console_layer).init();
+    } else {
+        sub.init();
+    };
 
     if let LogginLevel::Trace = CONFIG.logging.level {
         trace!("Check logging level.");
