@@ -21,7 +21,7 @@ parse-display = "0.10.0"
 tracing = "0.1"
 tracing-subscriber = "0.3"
 
-mlua = { version = "*", features = ["luajit"] }
+mlua = { version = "*", features = ["luajit", "vendored"] }
 
 serde_yaml = "0.9.34"
 homedir = "0.3.4"
