@@ -43,6 +43,8 @@ pub enum App {
     Gui(String),
 }
 
+use crate::music_control;
+
 impl Usecases {
     pub fn stringify_all() -> String {
         let strings = [
