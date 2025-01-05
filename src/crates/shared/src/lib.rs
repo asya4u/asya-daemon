@@ -6,5 +6,4 @@ pub mod llm;
 pub mod serde_extensions;
 pub mod event_system;
 pub mod plugin_system;
-pub mod de;
 pub mod error;

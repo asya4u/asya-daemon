@@ -7,11 +7,7 @@ use std::{collections::HashMap, fmt::Debug};
 use crate::types::AiRecognizeMethod;
 use homedir::my_home;
 use lazy_static::lazy_static;
-use log::LevelFilter;
-use mlua::{Lua, Table, ToLua, Value};
-
-use crate::de;
-use crate::error::Error;
+use mlua::{Lua, Table, ToLua};
 
 lazy_static! {
     pub static ref CONFIG: Config = {
@@ -30,7 +26,7 @@ lazy_static! {
                     .expect("Lua configuration file must be correct to evaluate");
 
                 let config: ConfigProperty =
-                    from_value(config_lua.to_lua(&lua).unwrap())
+                    mlua_serde::from_value(config_lua.to_lua(&lua).unwrap())
                         .expect("Lua config table must be correct to desiralize into Rust struct");
 
                 config
@@ -43,11 +39,6 @@ lazy_static! {
         merged_config.verify().unwrap();
         merged_config.unwrap_or_default()
     };
-}
-
-pub fn from_value<'de, T: serde::Deserialize<'de>>(value: Value<'de>) -> Result<T, Error> {
-    let deserializer = de::Deserializer { value };
-    Ok(T::deserialize(deserializer)?)
 }
 
 pub fn load_any_file(pathes: Vec<String>) -> Option<(String, String)> {

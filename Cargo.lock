@@ -1505,15 +1505,25 @@ dependencies = [
 
 [[package]]
 name = "mlua"
-version = "0.5.4"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd448d3e7018f2ff38dd732a374045f5b037eb4ee477d9241d9bb8c209528c1c"
+checksum = "f778acf55b288d9e0b81e7189988766499f4ec7f774b0965e30140295221e01d"
 dependencies = [
  "bstr",
  "cc",
  "lazy_static",
  "num-traits",
  "pkg-config",
+]
+
+[[package]]
+name = "mlua_serde"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b0fb3d10316c8ddb895f8fc24d4b9ecbf778257aab32f3cde6529a3eefd28788"
+dependencies = [
+ "mlua",
+ "serde",
 ]
 
 [[package]]
@@ -2391,6 +2401,7 @@ dependencies = [
  "macros",
  "merge-struct",
  "mlua",
+ "mlua_serde",
  "multimap",
  "plugin_interface",
  "queues",

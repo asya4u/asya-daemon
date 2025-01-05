@@ -21,6 +21,7 @@ tokio = { version = "1.39.2", features = ["full"] }
 http-body-util = "0.1.2"
 
 mlua = { version = "*", features = ["luajit"] }
+mlua_serde = "*"
 
 serde_yaml = "0.9.34"
 homedir = "0.3.4"
