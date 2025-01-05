@@ -3,7 +3,6 @@
 use macros::Property;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fmt::Debug};
-use tracing::level_filters::LevelFilter;
 
 use crate::types::AiRecognizeMethod;
 use homedir::my_home;
@@ -157,9 +156,6 @@ pub struct Net {
 #[derive(Debug, Property)]
 #[property(name(LoggingProperty), derive(Deserialize, Default, Clone))]
 pub struct Logging {
-    #[property(default)]
-    pub place: bool,
-
     #[property(default(LogginLevel::Info))]
     pub level: LogginLevel,
 
