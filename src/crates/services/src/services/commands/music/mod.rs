@@ -123,14 +123,6 @@ use winapi::um::winuser::{
 };
 
 #[cfg(target_family = "windows")]
-use windows::{
-    Media::Control::{
-        GlobalSystemMediaTransportControlsSessionManager,
-        GlobalSystemMediaTransportControlsSessionMediaProperties,
-    }
-};
-
-#[cfg(target_family = "windows")]
 pub fn play_pause() {
     unsafe {
        keybd_event(VK_MEDIA_PLAY_PAUSE as u8, 0, 0, 0);
