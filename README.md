@@ -80,7 +80,13 @@ cargo install --git https://github.com/asya4u/asya-daemon
   ```sh
   nix develop
   ```
-
+## Windows 
+- download [rustup](https://rustup.rs) as recommended way to use cargo package manager.
+- download [CMake](https://cmake.org)
+- install from cargo:
+  ```sh
+  cargo install --git https://github.com/asya4u/asya-daemon
+  ```
 
 <!-- USAGE EXAMPLES -->
 ## 🐳 Usage
