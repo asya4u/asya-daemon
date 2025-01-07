@@ -1,5 +1,7 @@
-use tracing::*;
 use macros::Stringify;
+
+use serde::{Deserialize, Serialize};
+use tracing::*;
 
 use crate::scenarios::*;
 
@@ -9,13 +11,48 @@ use crate::scenarios::*;
 #[derive(Debug, Stringify, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
 #[serde(rename_all = "camelCase")]
 pub enum Usecases {
+    /// Turns off current track.
+    /// # Examples
+    ///  - Asya, turns off the music, please.
+    ///  - Shut up music
     TurnOffMusic,
+
+    /// Turns on current track.
+    /// # Examples
+    ///  - Asya, turn the music back on.
+    ///  - Resume the song
     TurnOnMusic,
+
+    /// Returns currently playing track.
+    ///
+    /// # Examples
+    ///  - What song is playing right now?
+    ///  - What's the name of the current track?
     GetMusicStatus,
+
+    /// Play next track.
+    ///
+    /// # Examples
+    ///  - Next song, please.
+    ///  - Skip to the next track.
     PlayNextTrack,
+
+    /// Play previous track.
+    ///
+    /// # Examples
+    ///  - Play the previous song.
+    ///  - Go back to the last track.
     PlayPrevTrack,
+
     OpenApp(String),
+
     StartBasicSystemMonitoring,
+
+    /// If no other options are suitable, then this is a simple request from a language model.
+    ///
+    /// # Examples
+    ///  - Can you help me with that?
+    ///  - Please provide an answer.
     Answer,
 }
 
