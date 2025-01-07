@@ -15,10 +15,29 @@ pub mod usecases;
 fn process_response(llm_response: &str) -> Result<Usecases, Box<dyn std::error::Error>> {
     let llm_response = llm_response.replace("`json", "");
     // removes first '{' and last '}'
-    let llm_response = llm_response[1..llm_response.len() - 1].to_string();
+    let llm_response = remove_braces(llm_response.as_str());
     let llm_response = llm_response.replace("`", "");
+    dbg!(&llm_response);
     let usecase = serde_json::from_str::<Usecases>(&llm_response.clone())?;
     Ok(usecase)
+}
+
+fn remove_braces(input: &str) -> String {
+    let mut result = input.to_string();
+
+    // Удаляем первый символ '{'
+    if let Some(pos) = result.find('{') {
+        result.remove(pos);
+    } else {
+        return input.to_string();
+    }
+
+    // Удаляем последний символ '}'
+    if let Some(pos) = result.rfind('}') {
+        result.remove(pos);
+    }
+
+    result
 }
 
 pub async fn subscribe_for_plugins() {
