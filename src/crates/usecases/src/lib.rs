@@ -17,7 +17,6 @@ fn process_response(llm_response: &str) -> Result<Usecases, Box<dyn std::error::
     // removes first '{' and last '}'
     let llm_response = remove_braces(llm_response.as_str());
     let llm_response = llm_response.replace("`", "");
-    println!("{}", &llm_response);
     let usecase = serde_json::from_str::<Usecases>(&llm_response.clone())?;
     Ok(usecase)
 }
