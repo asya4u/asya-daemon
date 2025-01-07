@@ -14,7 +14,7 @@ pub enum Usecases {
     GetMusicStatus,
     PlayNextTrack,
     PlayPrevTrack,
-    Open(String),
+    OpenApp(String),
     StartBasicSystemMonitoring,
     Answer,
 }
@@ -42,7 +42,7 @@ impl Usecases {
             Usecases::StartBasicSystemMonitoring => {
                 system_monitoring::start_basic_monitoring(userinput).await
             }
-            Usecases::Open(app) => open::open(app).await,
+            Usecases::OpenApp(app) => open_app::open(app).await,
             Usecases::Answer => geranal_answer::answer(userinput).await,
         }
     }
