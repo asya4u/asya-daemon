@@ -71,7 +71,7 @@ impl Display for MediaPlayingStatus {
 
 #[cfg(target_family = "unix")]
 pub fn play_pause() {
-    shell::execute_command(vec!["playerctl", "play-pause"]);
+    let _ = shell::execute_command(vec!["playerctl", "play-pause"]);
 }
 
 #[cfg(target_family = "unix")]
@@ -85,13 +85,13 @@ pub fn get_status() -> MediaPlayingStatus {
     };
 
     match status_opt {
-        Some(status) => match status.as_str().trim() {
+        Ok((stdout, _)) => match stdout.as_str().trim() {
             "Playing" => MediaPlayingStatus::Playing(track_info),
             "Paused" => MediaPlayingStatus::Paused(track_info),
             "Stopped" => MediaPlayingStatus::Stopped,
             _ => MediaPlayingStatus::Unknown,
         },
-        None => todo!(),
+        Err(_) => todo!(),
     }
 }
 
@@ -104,11 +104,11 @@ pub fn play_next() {
 fn pctl_metadat_prop(prop: &str) -> Option<String> {
     let prop_formatted = format!("{{{{{}}}}}", prop);
     let query = vec!["playerctl", "metadata", "--format", prop_formatted.as_str()];
-    let prop_res = shell::execute_command(query).unwrap();
-    if prop_res.trim().is_empty() {
+    let (prop_out, _) = shell::execute_command(query).unwrap();
+    if prop_out.trim().is_empty() {
         None
     } else {
-        Some(prop_res)
+        Some(prop_out)
     }
 }
 
