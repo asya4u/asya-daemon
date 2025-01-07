@@ -17,6 +17,8 @@ pub enum Usecases {
     OpenApp(String),
     StartBasicSystemMonitoring,
     Answer,
+    Shutdown,
+    Reboot,
 }
 
 impl Usecases {
@@ -44,6 +46,8 @@ impl Usecases {
             }
             Usecases::OpenApp(app) => open_app::open(app).await,
             Usecases::Answer => geranal_answer::answer(userinput).await,
+            Usecases::Shutdown => pc_mgmt::shutdown::shutdown().await,
+            Usecases::Reboot => pc_mgmt::shutdown::reboot().await,
         }
     }
 }
