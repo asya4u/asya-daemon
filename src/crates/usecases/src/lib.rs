@@ -14,6 +14,8 @@ pub mod usecases;
 
 fn process_response(llm_response: &str) -> Result<Usecases, Box<dyn std::error::Error>> {
     let llm_response = llm_response.replace("`json", "");
+    // removes first '{' and last '}'
+    let llm_response = llm_response[1..llm_response.len() - 1].to_string();
     let llm_response = llm_response.replace("`", "");
     let usecase = serde_json::from_str::<Usecases>(&llm_response.clone())?;
     Ok(usecase)
@@ -32,7 +34,10 @@ pub async fn subscribe_for_plugins() {
 
 pub async fn dispatch_by_user_message(message: String) {
     let schema = schemars::schema_for!(Usecases);
-
+    let stringified_schema = serde_json::to_string_pretty(&schema)
+        .unwrap()
+        .replace("\n", "");
+    println!("{}", serde_json::to_string_pretty(&schema).unwrap());
     let c_req = format!(
         "
             Determine whether the following user input: {} is similar to any of the commands below. 
@@ -54,8 +59,7 @@ pub async fn dispatch_by_user_message(message: String) {
                 SEND ME ONLY GENERATED JSON
 
             ",
-            message,
-            serde_json::to_string_pretty(&schema).unwrap()
+            message, stringified_schema
         );
 
         let g_llm_response = llm_api::send_request(g_req).await;
