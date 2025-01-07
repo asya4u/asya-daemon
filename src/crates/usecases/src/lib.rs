@@ -17,7 +17,7 @@ fn process_response(llm_response: &str) -> Result<Usecases, Box<dyn std::error::
     // removes first '{' and last '}'
     let llm_response = remove_braces(llm_response.as_str());
     let llm_response = llm_response.replace("`", "");
-    dbg!(&llm_response);
+    println!("{}", &llm_response);
     let usecase = serde_json::from_str::<Usecases>(&llm_response.clone())?;
     Ok(usecase)
 }
@@ -25,16 +25,16 @@ fn process_response(llm_response: &str) -> Result<Usecases, Box<dyn std::error::
 fn remove_braces(input: &str) -> String {
     let mut result = input.to_string();
 
-    // Удаляем первый символ '{'
-    if let Some(pos) = result.find('{') {
-        result.remove(pos);
-    } else {
-        return input.to_string();
-    }
+    let left_count = result.matches('{').count();
 
-    // Удаляем последний символ '}'
-    if let Some(pos) = result.rfind('}') {
-        result.remove(pos);
+    if left_count < 2 {
+        if let Some(pos) = result.find('{') {
+            result.remove(pos);
+        }
+
+        if let Some(pos) = result.rfind('}') {
+            result.remove(pos);
+        }
     }
 
     result
