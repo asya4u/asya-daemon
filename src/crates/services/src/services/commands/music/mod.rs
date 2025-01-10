@@ -132,11 +132,27 @@ pub fn play_pause() {
 
 #[cfg(target_family = "windows")]
 pub fn get_status() -> MediaPlayingStatus {
+    use windows::Media::Control::GlobalSystemMediaTransportControlsSessionManager;
+    
+    let session_manager = GlobalSystemMediaTransportControlsSessionManager::RequestAsync()
+        .expect("Failed to initiate request for session manager")
+        .get()
+        .expect("Failed to get session manager");
+
+    let session = session_manager.GetCurrentSession().expect("Failed to get current session");
+        
+    let properties = session
+        .TryGetMediaPropertiesAsync()
+        .expect("Failed to initiate request for media properties")
+        .get()
+        .expect("Failed to get media properties");
+
     let track_info = TrackInfo {
-        title: Some("Unknown Title".to_string()),
-        artist: Some("Unknown Artist".to_string()),
-        album: Some("Unknown Album".to_string()),
+        title: Some(properties.Title().expect("Failed to get title").to_string()),
+        artist: Some(properties.Artist().expect("Failed to get artist").to_string()),
+        album: Some(properties.AlbumTitle().expect("Failed to get album title").to_string()),
     };
+
     MediaPlayingStatus::Playing(track_info)
 }
 

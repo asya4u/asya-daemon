@@ -10,8 +10,8 @@
       systems = [ "x86_64-linux" ];
       perSystem = { config, self', pkgs, lib, system, ... }:
         let
-          runtimeDeps = with pkgs; [ openssl pkg-config luajit ];
-          buildDeps = with pkgs; [ pkg-config rustPlatform.bindgenHook openssl luajit ];
+          runtimeDeps = with pkgs; [ openssl pkg-config luajit glibc dbus-glib ];
+          buildDeps = with pkgs; [ pkg-config rustPlatform.bindgenHook openssl luajit glibc dbus-glib ];
           devDeps = with pkgs; [ gdb ];
 
           cargoToml = builtins.fromTOML (builtins.readFile ./Cargo.toml);

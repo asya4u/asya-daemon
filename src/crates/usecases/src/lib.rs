@@ -14,9 +14,30 @@ pub mod usecases;
 
 fn process_response(llm_response: &str) -> Result<Usecases, Box<dyn std::error::Error>> {
     let llm_response = llm_response.replace("`json", "");
+    // removes first '{' and last '}'
+    let llm_response = remove_braces(llm_response.as_str());
     let llm_response = llm_response.replace("`", "");
+    println!("{}", &llm_response);
     let usecase = serde_json::from_str::<Usecases>(&llm_response.clone())?;
     Ok(usecase)
+}
+
+fn remove_braces(input: &str) -> String {
+    let mut result = input.to_string();
+
+    let left_count = result.matches('{').count();
+
+    if left_count < 2 {
+        if let Some(pos) = result.find('{') {
+            result.remove(pos);
+        }
+
+        if let Some(pos) = result.rfind('}') {
+            result.remove(pos);
+        }
+    }
+
+    result
 }
 
 pub async fn subscribe_for_plugins() {
@@ -32,7 +53,10 @@ pub async fn subscribe_for_plugins() {
 
 pub async fn dispatch_by_user_message(message: String) {
     let schema = schemars::schema_for!(Usecases);
-
+    let stringified_schema = serde_json::to_string_pretty(&schema)
+        .unwrap()
+        .replace("\n", "");
+    println!("{}", serde_json::to_string_pretty(&schema).unwrap());
     let c_req = format!(
         "
             Determine whether the following user input: {} is similar to any of the commands below. 
@@ -54,8 +78,7 @@ pub async fn dispatch_by_user_message(message: String) {
                 SEND ME ONLY GENERATED JSON
 
             ",
-            message,
-            serde_json::to_string_pretty(&schema).unwrap()
+            message, stringified_schema
         );
 
         let g_llm_response = llm_api::send_request(g_req).await;

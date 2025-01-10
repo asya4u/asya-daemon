@@ -95,6 +95,7 @@ pub async fn play_next_track(_: String) {
     music::play_next();
 
     let res = PromptBuilder::new()
+        .set_path("/telegram/music/next")
         .set_fallback_phrase(Lexicon::ExecuteSuccess)
         .get_result()
         .await;
@@ -112,6 +113,7 @@ pub(crate) async fn play_previous_track(_: String) {
     music::play_prev();
 
     let res = PromptBuilder::new()
+        .set_path("/telegram/music/prev")
         .set_fallback_phrase(Lexicon::ExecuteSuccess)
         .get_result()
         .await;

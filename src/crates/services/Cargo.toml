@@ -43,6 +43,9 @@ mpris = "2.0.0"
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3", features = ["combaseapi", "objbase", "winnls","winuser"] }
+windows = { version = "0.58.0", features = [
+    "Media_Control", 
+] }
 
 [dev-dependencies]
 criterion = { version = "0.5.1", features = ["html_reports"] }
