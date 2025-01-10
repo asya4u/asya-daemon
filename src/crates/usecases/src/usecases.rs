@@ -1,6 +1,5 @@
 use macros::Stringify;
 
-use serde::{Deserialize, Serialize};
 use tracing::*;
 
 use crate::scenarios::*;
@@ -44,12 +43,16 @@ pub enum Usecases {
     ///  - Go back to the last track.
     PlayPrevTrack,
   
+    /// Turns off the computer.
     Shutdown,
   
+    /// Reboot computer.
     Reboot,
 
+    /// Open specified app.
     OpenApp(String),
 
+    /// Basic system monitoring.
     StartBasicSystemMonitoring,
 
     /// If no other options are suitable, then this is a simple request from a language model.
