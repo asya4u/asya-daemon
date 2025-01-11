@@ -1,5 +1,6 @@
 use macros::Stringify;
 
+use shared::configuration::CONFIG;
 use tracing::*;
 
 use crate::scenarios::*;
@@ -42,10 +43,10 @@ pub enum Usecases {
     ///  - Play the previous song.
     ///  - Go back to the last track.
     PlayPrevTrack,
-  
+
     /// Turns off the computer.
     Shutdown,
-  
+
     /// Reboot computer.
     Reboot,
 
@@ -61,14 +62,11 @@ pub enum Usecases {
     ///  - Can you help me with that?
     ///  - Please provide an answer.
     Answer,
-
 }
 
 impl Usecases {
     pub fn stringify_all() -> String {
-        let strings = [
-            Usecases::stringify_one(),
-        ];
+        let strings = [Usecases::stringify_one()];
         let iter = strings.iter().map(|el| el.to_string() + "\n\n");
         String::from_iter(iter)
     }
@@ -89,8 +87,16 @@ impl Usecases {
             }
             Usecases::OpenApp(app) => open_app::open(app).await,
             Usecases::Answer => geranal_answer::answer(userinput).await,
-            Usecases::Shutdown => pc_mgmt::shutdown::shutdown().await,
-            Usecases::Reboot => pc_mgmt::shutdown::reboot().await,
+            Usecases::Shutdown => {
+                if CONFIG.usecases.test_dangerous_features {
+                    pc_mgmt::shutdown::shutdown().await
+                }
+            }
+            Usecases::Reboot => {
+                if CONFIG.usecases.test_dangerous_features {
+                    pc_mgmt::shutdown::reboot().await
+                }
+            }
         }
     }
 }
