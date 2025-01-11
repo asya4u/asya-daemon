@@ -74,6 +74,19 @@ pub struct Config {
     /// Open apps (похуй)
     #[property(default, use_type(OpenAppsProperty), mergeable)]
     pub open: OpenApps,
+
+    /// Usecases specific options.
+    #[property(default, use_type(UsecasesProperty), mergeable)]
+    pub usecases: Usecases,
+}
+
+
+#[derive(Debug, Property)]
+#[property(name(UsecasesProperty), derive(Deserialize, Default, Clone))]
+pub struct Usecases {
+    /// If enable, Asya can does some funny things.
+    #[property(default)]
+    pub test_dangerous_features: bool,
 }
 
 #[derive(Debug, Property)]
