@@ -19,12 +19,14 @@ name = "asya"
 version = "0.1.0"
 edition = "2021"
 
-[dependencies]
+[workspace.dependencies]
 server = { path = "src/crates/server" }
 services = { path = "src/crates/services" }
 shared = { path = "src/crates/shared" }
 macros = { path = "src/crates/macros" }
 usecases = { path = "src/crates/usecases" }
+
+async-trait = "0.1.83"
 
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
@@ -38,6 +40,12 @@ tower = "0.5"
 serde-env = "0.2.0"
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
+
+serde_derive = "=1.0.213"
+
+hyper = { version = "1.4.1", features = ["full"] }
+
+mlua = { version = "*", features = ["luajit"] }
 
 colored = "2.1.0"
 chrono = "0.4.38"
@@ -53,6 +61,22 @@ queues = "1.1.0"
 
 bytes = "1.7.1"
 
+tonic-build = "0.12.1"
+
+criterion = { version = "0.5.1", features = ["html_reports"] }
+
+[dependencies]
+rand.workspace = true
+shared.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+chrono.workspace = true
+ctrlc.workspace = true
+usecases.workspace = true
+server.workspace = true
+
+
 [profile.dev]
 lto = "off"
 opt-level = 0
@@ -67,4 +91,4 @@ inherits = "release"
 debug = true
 
 [build-dependencies]
-tonic-build = "0.12.1"
+tonic-build.workspace = true
