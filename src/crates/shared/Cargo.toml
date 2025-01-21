@@ -20,8 +20,7 @@ hyper = { version = "1.4.1", features = ["full"] }
 tokio = { version = "1.39.2", features = ["full"] }
 http-body-util = "0.1.2"
 
-mlua = { version = "*", features = ["luajit"] }
-mlua_serde = "*"
+mlua = { version = "0.10", features = ["lua54", "serialize"] }
 
 serde_yaml = "0.9.34"
 homedir = "0.3.4"

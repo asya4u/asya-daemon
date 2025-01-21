@@ -7,7 +7,6 @@ use std::{collections::HashMap, fmt::Debug};
 use crate::types::AiRecognizeMethod;
 use homedir::my_home;
 use lazy_static::lazy_static;
-use mlua::{Lua, Table, ToLua};
 
 lazy_static! {
     pub static ref CONFIG: Config = {
@@ -17,17 +16,12 @@ lazy_static! {
         )];
 
         let lua_config = {
-            if let Some((_config_path, lua_file_content)) = load_any_file(config_path) {
-                let lua = Lua::new();
-
-                let config_lua: Table = lua
-                    .load(&lua_file_content)
-                    .eval()
-                    .expect("Lua configuration file must be correct to evaluate");
-
-                let config: ConfigProperty =
-                    mlua_serde::from_value(config_lua.to_lua(&lua).unwrap())
-                        .expect("Lua config table must be correct to desiralize into Rust struct");
+            if let Some((loaded_config_path, lua_file_content)) = load_any_file(config_path) {
+                let config = crate::lua::interpret_configs(
+                    std::path::Path::new(loaded_config_path.as_str()),
+                    lua_file_content,
+                )
+                .expect("Failed to interpret lua.");
 
                 config
             } else {
