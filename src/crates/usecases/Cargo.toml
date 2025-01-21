@@ -21,7 +21,6 @@ parse-display = "0.10.0"
 tracing.workspace = true
 
 mlua.workspace = true
-
 serde_yaml = "0.9.34"
 homedir = "0.3.4"
 
