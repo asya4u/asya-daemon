@@ -12,10 +12,7 @@ use std::{
 use tokio::sync::{mpsc::Receiver, Mutex};
 use tracing::*;
 
-use crate::{
-    configuration::CONFIG,
-    event_system,
-};
+use crate::{configuration::CONFIG, event_system};
 
 mod api_callbacks;
 
@@ -260,8 +257,7 @@ unsafe fn load_plugin_data(libs: Vec<String>) -> Vec<PluginRuntimeInfo> {
     infos
 }
 
-type ConfigEntry<'a> =
-    &'a std::collections::HashMap<std::string::String, Vec<String>>;
+type ConfigEntry<'a> = &'a std::collections::HashMap<std::string::String, Vec<String>>;
 
 fn extract_config_ptr(plugin_config: ConfigEntry) -> *mut i8 {
     let stringified = serde_json::to_string(&plugin_config).unwrap();

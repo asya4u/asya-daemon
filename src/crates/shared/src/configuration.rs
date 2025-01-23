@@ -1,7 +1,7 @@
 //! Config database.
 
 use macros::Property;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use std::{collections::HashMap, fmt::Debug};
 
 use crate::types::AiRecognizeMethod;
