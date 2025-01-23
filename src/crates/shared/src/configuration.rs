@@ -1,7 +1,7 @@
 //! Config database.
 
 use macros::Property;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use std::{collections::HashMap, fmt::Debug};
 
 use crate::types::AiRecognizeMethod;
@@ -78,16 +78,7 @@ pub struct Plugins {
     pub plugins_folder: String,
 
     #[property(default)]
-    pub config: HashMap<String, HashMap<String, ConfigFieldType>>,
-}
-
-#[derive(Debug, Clone, Deserialize, Serialize)]
-#[serde(untagged)]
-pub enum ConfigFieldType {
-    #[serde(skip_deserializing)]
-    NormalizedArray(Vec<String>),
-    Array(HashMap<usize, String>), // hashmap here for compatibility with lua.
-    Single(String),
+    pub config: HashMap<String, HashMap<String, Vec<String>>>,
 }
 
 #[derive(Debug, Property)]
