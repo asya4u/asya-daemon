@@ -260,6 +260,7 @@ unsafe fn load_plugin_data(libs: Vec<String>) -> Vec<PluginRuntimeInfo> {
 type ConfigEntry<'a> = &'a std::collections::HashMap<std::string::String, Vec<String>>;
 
 fn extract_config_ptr(plugin_config: ConfigEntry) -> *mut i8 {
+    // let normalized_plugin_config = normalize_config(plugin_config);
     let stringified = serde_json::to_string(&plugin_config).unwrap();
     if let Ok(cstring) = CString::new(stringified.to_owned()) {
         CString::into_raw(cstring)
