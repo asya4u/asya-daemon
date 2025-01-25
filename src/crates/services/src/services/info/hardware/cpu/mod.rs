@@ -25,6 +25,8 @@ pub fn get_frequency(_: String) -> Option<u64> {
 }
 
 fn system<T>(f: impl FnOnce(&sysinfo::System) -> Option<T>) -> Option<T> {
-    let sys = System::new_with_specifics(RefreshKind::everything().with_cpu(CpuRefreshKind::everything()));
+    let sys = System::new_with_specifics(
+        RefreshKind::everything().with_cpu(CpuRefreshKind::everything()),
+    );
     f(&sys)
 }

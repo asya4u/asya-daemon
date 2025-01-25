@@ -32,7 +32,8 @@ fn system<T, F>(f: T) -> Option<F>
 where
     T: FnOnce(&sysinfo::System) -> Option<F>,
 {
-    f(&System::new_with_specifics(RefreshKind::everything().with_memory(
-        MemoryRefreshKind::everything().with_ram().with_swap(),
-    )))
+    f(&System::new_with_specifics(
+        RefreshKind::everything()
+            .with_memory(MemoryRefreshKind::everything().with_ram().with_swap()),
+    ))
 }
