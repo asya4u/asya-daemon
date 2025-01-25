@@ -4,7 +4,7 @@ version.workspace = true
 edition.workspace = true
 
 [lib]
-proc_macro = true
+proc-macro = true
 
 [dependencies]
 prettyplease = "0.2.25"
