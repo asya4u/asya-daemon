@@ -16,8 +16,6 @@ fn get_value_by_pointer(value: Option<serde_json::Value>, pointer: &str) -> Opti
     value.and_then(|value| {
         value
             .pointer(pointer)
-            .and_then(|val| {
-                serde_json::from_value(val.clone()).ok()
-            })
+            .and_then(|val| serde_json::from_value(val.clone()).ok())
     })
 }

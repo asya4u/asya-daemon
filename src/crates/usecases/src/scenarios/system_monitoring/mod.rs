@@ -3,9 +3,12 @@ use std::sync::Arc;
 use shared::event_system;
 use tokio::task;
 
-use crate::{shared_workers::{self, HardwareStatus}, AsyaResponse};
+use crate::{
+    shared_workers::{self, HardwareStatus},
+    AsyaResponse,
+};
 
-/// Asya watches ur hardware. 
+/// Asya watches ur hardware.
 pub async fn start_basic_monitoring(_: String) {
     shared_workers::SystemMonitor::start_basic_monitoring().await;
     event_system::subscribe_once({
@@ -18,5 +21,6 @@ pub async fn start_basic_monitoring(_: String) {
                 event_system::publish(response).await;
             })
         }
-    }).await
+    })
+    .await
 }

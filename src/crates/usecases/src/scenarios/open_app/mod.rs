@@ -41,7 +41,7 @@ pub async fn open(app: String) {
     match res {
         Ok(_) => {
             event_system::publish(AsyaResponse::Ok {
-                message: format!("Opened '{}'", app)
+                message: format!("Opened '{}'", app),
             })
             .await;
         }
@@ -85,7 +85,7 @@ fn spawn_process(exec: &mut String, is_terminal: bool) -> Result<(), String> {
     let shell_process = if is_terminal {
         // Execute TUI apps
         let mut config_terminal = CONFIG.open.terminal.clone();
-        if config_terminal.is_empty(){
+        if config_terminal.is_empty() {
             config_terminal.push_str(" -e");
             config_terminal.push_str(exec.as_str());
             let _ = Command::new("/bin/sh")
@@ -94,8 +94,15 @@ fn spawn_process(exec: &mut String, is_terminal: bool) -> Result<(), String> {
                 .stdout(std::process::Stdio::null())
                 .stderr(std::process::Stdio::null())
                 .spawn();
-        }else{
-            let fallback = ["kitty", "alacritty", "xfce4-terminal", "konsole", "gnome-terminal"].map(|x| x.to_string());
+        } else {
+            let fallback = [
+                "kitty",
+                "alacritty",
+                "xfce4-terminal",
+                "konsole",
+                "gnome-terminal",
+            ]
+            .map(|x| x.to_string());
             for mut terminal in fallback {
                 terminal.push_str(" -e");
                 terminal.push_str(exec.as_str());

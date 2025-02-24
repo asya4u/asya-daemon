@@ -1,4 +1,7 @@
-use std::{ffi::{c_char, c_void}, ptr};
+use std::{
+    ffi::{c_char, c_void},
+    ptr,
+};
 
 pub type EventCallbalck = unsafe extern "C" fn(*const EventState, ApiCallbacks);
 pub type ExecuteCallback = unsafe extern "C" fn(*mut State, ApiCallbacks);

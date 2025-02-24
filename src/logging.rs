@@ -44,7 +44,9 @@ fn make_writer() -> File {
 
     let path = Path::new(&CONFIG.logging.folder);
     if !path.exists() {
-        fs::create_dir_all(path).expect("The application should be able to create folder to store logs.");
+        fs::create_dir_all(path)
+            .expect("The application should be able to create folder to store logs.");
     }
-    File::create_new(filename).expect("The application should be able to create a log file in specified folder.")
+    File::create_new(filename)
+        .expect("The application should be able to create a log file in specified folder.")
 }

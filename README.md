@@ -15,7 +15,7 @@
     </br>
     get information about the status of your PC, update and troubleshoot problems.
     <br />
-    <a href="https://github.com/DmitryHudrich/asya-daemon/wiki"><strong>Explore the docs »</strong></a>
+    <a href="https://asya4u.github.io/wiki/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <!-- <a href="https://github.com/asya4u/asya-daemon">View Demo</a>  //TODO -->
@@ -46,22 +46,22 @@
   * Debian-based
       ```sh
       sudo apt update
-      sudo apt install -y luajit pkg-config libssl-dev
+      sudo apt install -y lua5.4 pkg-config libssl-dev
       ```
       
   * Fedora 
       ```sh
-      sudo dnf install -y luajit pkgconf-pkg-config openssl-devel
+      sudo dnf install -y lua pkgconf-pkg-config openssl-devel
       ```
   * Arch-based
       ```sh
       sudo pacman -Syu
-      sudo pacman -S --noconfirm luajit pkgconf openssl
+      sudo pacman -S --noconfirm lua pkgconf openssl
       ```
   * macOS:
       ```sh
       brew update
-      brew install luajit pkg-config openssl
+      brew install lua pkg-config openssl
       ```
 ### Build
 ```sh
@@ -80,7 +80,13 @@ cargo install --git https://github.com/asya4u/asya-daemon
   ```sh
   nix develop
   ```
-
+## Windows 
+- download [rustup](https://rustup.rs) as recommended way to use cargo package manager.
+- download [CMake](https://cmake.org)
+- install from cargo:
+  ```sh
+  cargo install --git https://github.com/asya4u/asya-daemon
+  ```
 
 <!-- USAGE EXAMPLES -->
 ## 🐳 Usage

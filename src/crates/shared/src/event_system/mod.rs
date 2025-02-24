@@ -47,7 +47,6 @@ where
     get_event_dispatcher().await.publish(event).await;
 }
 
-
 pub async fn get_channel() -> &'static (Sender<String>, Mutex<Receiver<String>>) {
     static ONCE: OnceCell<(Sender<String>, Mutex<Receiver<String>>)> = OnceCell::const_new();
     ONCE.get_or_init(|| async {

@@ -1,8 +1,8 @@
 use lazy_static::lazy_static;
 use std::ffi::{c_char, CString};
 
-use tracing::*;
 use plugin_interface::ApiCallbacks;
+use tracing::*;
 
 use crate::event_system;
 

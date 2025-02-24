@@ -88,17 +88,20 @@ impl Usecases {
             Usecases::OpenApp(app) => open_app::open(app).await,
             Usecases::Answer => geranal_answer::answer(userinput).await,
             Usecases::Shutdown => {
-                if CONFIG.usecases.test_dangerous_features {
-                    pc_mgmt::shutdown::shutdown().await
-                }
+                do_dang(pc_mgmt::shutdown::shutdown).await;
             }
             Usecases::Reboot => {
-                if CONFIG.usecases.test_dangerous_features {
-                    pc_mgmt::shutdown::reboot().await
-                }
+                do_dang(pc_mgmt::shutdown::reboot).await;
             }
         }
     }
 }
 
-// if new usecases with some params will be added, they should be added as example to the `Requests` enum in `requests.rs`
+async fn do_dang(h: impl std::ops::AsyncFnOnce()) {
+    if CONFIG.usecases.test_dangerous_features {
+        info!("Execute dangerous feature.");
+        h().await
+    } else {
+        info!("Dangerous features doesn't execute.");
+    }
+}

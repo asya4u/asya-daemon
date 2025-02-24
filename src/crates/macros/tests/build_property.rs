@@ -214,7 +214,7 @@ fn check_verify_method() {
 
     assert!(config.verify().is_err());
 
-    config.field3 .as_mut().unwrap().field2 = None;
+    config.field3.as_mut().unwrap().field2 = None;
 
     assert!(config.verify().is_err());
 

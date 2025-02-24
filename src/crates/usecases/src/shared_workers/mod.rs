@@ -1,7 +1,7 @@
 use serde::Serialize;
-use std::sync::atomic::{AtomicBool, Ordering};
 use services::services::info::hardware::{cpu, ram};
 use shared::event_system;
+use std::sync::atomic::{AtomicBool, Ordering};
 use tokio::task;
 
 /// Represents the status of the hardware components.

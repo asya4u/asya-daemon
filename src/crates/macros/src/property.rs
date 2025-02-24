@@ -163,7 +163,8 @@ impl Structure {
                         };
 
                         if *force_check {
-                            let error_message = format!("The '{field_name}' config value wasn't set!");
+                            let error_message =
+                                format!("The '{field_name}' config value wasn't set!");
 
                             statement = quote! {
                                 #statement else {

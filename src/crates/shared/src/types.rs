@@ -7,5 +7,3 @@ pub enum AiRecognizeMethod {
     #[default]
     None,
 }
-
-

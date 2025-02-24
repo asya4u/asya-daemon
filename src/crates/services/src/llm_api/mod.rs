@@ -1,8 +1,8 @@
 use alta_s_api::send_to_altas;
 use groq_api::send_to_groq;
-use tracing::*;
 use reqwest::Client;
 use shared::{configuration::CONFIG, types::AiRecognizeMethod};
+use tracing::*;
 
 mod alta_s_api;
 mod groq_api;
