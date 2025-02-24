@@ -7,13 +7,11 @@ use clap::Parser;
 /// args: command and args
 /// If args are not provided, also returns Err.
 pub fn execute_command(args: Vec<&str>) -> Result<(String, String), String> {
-    if args.is_empty(){
+    if args.is_empty() {
         return Err("Command not provided".to_string());
     }
 
-    let result = Command::new(args[0])
-        .args(&args[1..])
-        .output();
+    let result = Command::new(args[0]).args(&args[1..]).output();
 
     match result {
         Ok(out) => {

@@ -74,7 +74,6 @@ pub struct Config {
     pub usecases: Usecases,
 }
 
-
 #[derive(Debug, Property)]
 #[property(name(UsecasesProperty), derive(Deserialize, Default, Clone))]
 pub struct Usecases {
