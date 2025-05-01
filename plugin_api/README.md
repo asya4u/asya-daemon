@@ -1,67 +1,67 @@
-# Разработка плагинов для Аси
+# Asya Plugin Development
 
-## Общая информация
+## General Information
 
-Плагины для Аси представляют собой динамические библиотеки, которые загружаются во время выполнения. Поддерживаются плагины, написанные на C и Rust (на данный момент).
+Asya plugins are dynamic libraries that are loaded at runtime. Currently, plugins written in C and Rust are supported.
 
-## Структура плагина
+## Plugin Structure
 
-### Обязательные компоненты
+### Required Components
 
-Каждый плагин **обязан** содержать **глобальную** функцию с именем `plugin_info` следующей сигнатуры:
+Each plugin **must** contain a **global** function named `plugin_info` with the following signature:
 
-```rust
+```c
 NativePluginInformation* plugin_info();
 ```
 
-### Структуры данных
+### Data Structures
 
 #### NativePluginInformation
 
-```rust
-pub struct NativePluginInformation {
-    pub name: *const c_char,        // Фиксированное имя плагина (идентификатор)
-    pub entrypoint: EntryPointCallback, // Функция входа в плагин
-    pub options: *const PluginOption,   // Опции конфигурации плагина
-}
+```c
+struct NativePluginInformation {
+    const char* name;        // Fixed plugin name (identifier)
+    EntryPointCallback entrypoint; // Plugin entry point function
+    const PluginOption* options;   // Plugin configuration options
+};
 ```
 
 #### EntryPointCallback
 
 ```c
-void (*EntryPointCallback)(const char*, ApiCallbacksMap);
+typedef void (*EntryPointCallback)(const char*, ApiCallbacksMap);
 ```
 
 #### ApiCallbacksMap
 
-```rust
-pub struct ApiCallbacksMap {
-    callbacks: *const ApiCallback,
-    callbacks_len: c_uint,
-}
+```c
+struct ApiCallbacksMap {
+    const ApiCallback* callbacks;
+    unsigned int callbacks_len;
+};
 ```
 
 #### ApiCallback
 
-```rust
-pub struct ApiCallback {
-    name: *const c_char,    // Имя колбэка
-    callback: *const c_void, // Указатель на функцию любой сигнатуры
-}
+```c
+struct ApiCallback {
+    const char* name;    // Callback name
+    const void* callback; // Pointer to a function of any signature
+};
 ```
 
 #### PluginOption
 
-```rust
-pub struct PluginOption {
-    name: *const c_char,    // Имя опции
-    value: *const c_void,   // Значение опции (может быть любого типа)
-}
+```c
+struct PluginOption {
+    const char* name;    // Option name
+    const void* value;   // Option value (can be of any type)
+};
 ```
 
-## Взаимодействие с Асей
+## Interaction with Asya
 
-1. Ася автоматически загружает все плагины из директории `plugins`
-2. При загрузке вызывается функция `plugin_info`
-3. Через `ApiCallbacksMap` плагин получает доступ к API Аси
-4. Опции плагина (`PluginOption`) используются для настройки взаимодействия с плагином
+1. Asya automatically loads all plugins from the `plugins` directory
+2. The `plugin_info` function is called during loading
+3. Through `ApiCallbacksMap`, the plugin gets access to Asya's API
+4. Plugin options (`PluginOption`) are used to configure interaction with the plugin
