@@ -6,8 +6,7 @@ use std::{
 use super::FoundedPlugin;
 use netcorehost::{
     hostfxr::ManagedFunction,
-    nethost, pdcstr,
-    pdcstring::{other::PdCStrExt, PdCStr, PdCString},
+    nethost, pdcstring::{other::PdCStrExt, PdCStr, PdCString},
 };
 use plugin_api::ApiCallbacksMap;
 use serde::de::Error;
@@ -25,15 +24,15 @@ struct PreloadOptions {
 
 impl PreloadOptions {
     pub fn ep_namespace(&self) -> &str {
-        dbg!(self.plugin_entry_point.rsplitn(3, '.').last().unwrap())
+        self.plugin_entry_point.rsplitn(3, '.').last().unwrap()
     }
 
     pub fn ep_class(&self) -> &str {
-        self.plugin_entry_point.rsplitn(3, '.').nth(1).unwrap()
+        self.plugin_entry_point.rsplit('.').nth(1).unwrap()
     }
 
     pub fn ep_method(&self) -> &str {
-        self.plugin_entry_point.rsplitn(3, '.').nth(0).unwrap()
+        self.plugin_entry_point.rsplit('.').nth(0).unwrap()
     }
 }
 
