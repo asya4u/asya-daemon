@@ -106,18 +106,17 @@ unsafe fn load_native(el: native::NativePluginRuntimeInfo) {
     });
 }
 
-/// Finds plugins for user's OS and returs their pathes.
+/// Finds plugins for user's OS and returns their paths.
 fn find_plugins() -> Vec<FoundedPlugin> {
     let plugins_folder = &CONFIG.plugins.plugins_folder;
-
     let dir = Path::new(plugins_folder);
 
-    let plugins = collect_files(dir).unwrap_or_default();
-    let qualified_plugins = qualify_plugins(plugins);
+    let plugin_dirs = collect_plugin_dirs(dir).unwrap_or_default();
+    let qualified_plugins = qualify_plugins(plugin_dirs);
 
     if qualified_plugins.is_empty() {
         info!(
-            "No one plugins in folder '{}'.",
+            "No plugins found in folder '{}'.",
             dir.to_str().unwrap_or("ERROR DUE CASTING PLUGINS PATH")
         );
     } else {
@@ -131,23 +130,56 @@ fn find_plugins() -> Vec<FoundedPlugin> {
     qualified_plugins
 }
 
-fn qualify_plugins(plugins_pathes: Vec<PathBuf>) -> Vec<FoundedPlugin> {
-    let mut res = vec![];
-    for p in &plugins_pathes {
-        if p.extension() == Some(OsStr::new("so")) {
-            res.push(FoundedPlugin::Native { path: p.clone() });
-        } else if p.extension() == Some(OsStr::new("dll")) {
-            let filename = p.file_name().and_then(|name| name.to_str()).unwrap();
-            let filename = filename.replace(".dll", "");
-            if let Some(founded_plugin) = plugins_pathes.iter().find(|el| {
-                let file_name = el.file_name().unwrap();
-                let file_name_str = file_name.to_str().unwrap();
+/// Collects all subdirectories in the plugins folder.
+fn collect_plugin_dirs(dir: &Path) -> io::Result<Vec<PathBuf>> {
+    let mut plugin_dirs = Vec::new();
 
+    for entry in fs::read_dir(dir)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.is_dir() {
+            plugin_dirs.push(path);
+        }
+    }
+
+    Ok(plugin_dirs)
+}
+
+/// Qualifies plugins by scanning each plugin directory for .so or .dll+.json files.
+fn qualify_plugins(plugin_dirs: Vec<PathBuf>) -> Vec<FoundedPlugin> {
+    let mut res = vec![];
+
+    for plugin_dir in plugin_dirs {
+        // Collect all files in the plugin directory
+        let files = collect_files(&plugin_dir).unwrap_or_default();
+
+        // Check for .so files (Native plugins)
+        for file in files
+            .iter()
+            .filter(|p| p.extension() == Some(OsStr::new("so")))
+        {
+            res.push(FoundedPlugin::Native { path: file.clone() });
+        }
+
+        // Check for .dll files and corresponding .json files (Dotnet plugins)
+        for dll_file in files
+            .iter()
+            .filter(|p| p.extension() == Some(OsStr::new("dll")))
+        {
+            let filename = dll_file
+                .file_name()
+                .and_then(|name| name.to_str())
+                .map(|name| name.replace(".dll", ""))
+                .unwrap_or_default();
+
+            if let Some(json_file) = files.iter().find(|el| {
+                let file_name = el.file_name().unwrap_or_default();
+                let file_name_str = file_name.to_str().unwrap_or_default();
                 file_name_str.starts_with(&filename) && file_name_str.ends_with("json")
             }) {
                 res.push(FoundedPlugin::Dotnet {
-                    dll_path: p.clone(),
-                    runtimeconfig_path: founded_plugin.clone(),
+                    dll_path: dll_file.clone(),
+                    runtimeconfig_path: json_file.clone(),
                 });
             }
         }
@@ -156,14 +188,14 @@ fn qualify_plugins(plugins_pathes: Vec<PathBuf>) -> Vec<FoundedPlugin> {
     res
 }
 
+/// Collects all files in a given directory (not recursive).
 fn collect_files(dir: &Path) -> io::Result<Vec<PathBuf>> {
     let mut files_with_extension = Vec::new();
 
     for entry in fs::read_dir(dir)? {
         let entry = entry?;
         let path = entry.path();
-
-        if !path.is_dir() {
+        if path.is_file() {
             files_with_extension.push(path);
         }
     }
