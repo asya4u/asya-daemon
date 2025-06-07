@@ -1,6 +1,7 @@
 /target
 f.hurl
 .gitignore
+**/.vscode
 
 /log
 /logs
