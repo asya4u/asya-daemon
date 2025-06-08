@@ -5,7 +5,7 @@ members = [
   "src/crates/shared",
   "src/crates/macros",
   "src/crates/usecases",
-  "src/crates/macros", 
+  "src/crates/macros",
   "src/crates/plugin_system",
 ]
 
@@ -21,7 +21,7 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace.dependencies]
-mlua = { version = "0.10.3", features = ["luajit","vendored","serialize"] }
+mlua = { version = "0.10.3", features = ["lua54", "vendored", "serialize"] }
 chrono = "0.4.38"
 colored = "2.1.0"
 hyper = { version = "1.4.1", features = ["full"] }
@@ -48,8 +48,8 @@ serde_yaml = "0.9.34"
 homedir = "0.3.4"
 http-body-util = "0.1.2"
 tracing-appender = "0.2"
-ctrlc = {version = "*"}
-regex = { version = "*"}
+ctrlc = { version = "*" }
+regex = { version = "*" }
 async-trait = "0.1.83"
 libloading = "0.8.6"
 
@@ -61,32 +61,32 @@ macros = { path = "src/crates/macros" }
 usecases = { path = "src/crates/usecases" }
 plugin_system = { path = "src/crates/plugin_system" }
 
-tracing = {workspace = true}
-tracing-subscriber = {workspace = true, features = ["env-filter"]}
-tracing-appender = {workspace = true}
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+tracing-appender = { workspace = true }
 
-ctrlc = {workspace = true}
-tokio = {workspace = true}
-http-body-util = {workspace = true}
+ctrlc = { workspace = true }
+tokio = { workspace = true }
+http-body-util = { workspace = true }
 
-tower = {workspace = true}
-serde-env = {workspace = true}
-serde_json = {workspace = true}
-serde = {workspace = true}
+tower = { workspace = true }
+serde-env = { workspace = true }
+serde_json = { workspace = true }
+serde = { workspace = true }
 
-colored = {workspace = true}
-chrono = {workspace = true}
-sysinfo = {workspace = true}
-form_urlencoded = {workspace = true}
-multimap = {workspace = true}
-lazy_static = {workspace = true}
-toml = {workspace = true}
-merge-struct = {workspace = true}
-clap = {workspace = true}
-rand = {workspace = true}
-queues = {workspace = true}
+colored = { workspace = true }
+chrono = { workspace = true }
+sysinfo = { workspace = true }
+form_urlencoded = { workspace = true }
+multimap = { workspace = true }
+lazy_static = { workspace = true }
+toml = { workspace = true }
+merge-struct = { workspace = true }
+clap = { workspace = true }
+rand = { workspace = true }
+queues = { workspace = true }
 
-bytes = {workspace = true}
+bytes = { workspace = true }
 
 [profile.dev]
 lto = "off"

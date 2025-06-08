@@ -1,5 +1,6 @@
 use crate::tools::PromptBuilder;
 use crate::AsyaResponse;
+use services::services::commands::music::MediaPlayingStatus;
 use services::{
     lexicon::Lexicon,
     services::commands::music::{self},
@@ -20,6 +21,8 @@ use shared::{event_system, traits::Beautify};
 ///     * [`AsyaResponse::Ok`] - if music was paused or resumed.
 #[cfg(target_family = "unix")]
 pub async fn play_or_resume_music(executed_command: String) {
+    use services::services::commands::music::MediaPlayingStatus;
+
     let music_status = music::get_status();
     music::play_pause();
     match music_status {
