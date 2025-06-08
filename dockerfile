@@ -34,19 +34,16 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry cargo build --target x86
 COPY ./plugin_api /app/plugin_api
 COPY ./src /app/src
 
-RUN --mount=type=cache,target=/usr/local/cargo/registry <<EOF
-  set -e
-  # Update timestamps to force a new build
-  touch /app/plugin_api/src/lib.rs
-  touch /app/src/crates/macros/src/lib.rs
-  touch /app/src/crates/plugin_system/src/lib.rs
-  touch /app/src/crates/server/src/lib.rs
-  touch /app/src/crates/services/src/lib.rs
-  touch /app/src/crates/shared/src/lib.rs
-  touch /app/src/crates/usecases/src/lib.rs
-  touch /app/src/main.rs
-  cargo build --target x86_64-pc-windows-gnu
-EOF
+RUN --mount=type=cache,target=/usr/local/cargo/registry /bin/bash -c 'set -e; \
+  touch /app/plugin_api/src/lib.rs; \
+  touch /app/src/crates/macros/src/lib.rs; \
+  touch /app/src/crates/plugin_system/src/lib.rs; \
+  touch /app/src/crates/server/src/lib.rs; \
+  touch /app/src/crates/services/src/lib.rs; \
+  touch /app/src/crates/shared/src/lib.rs; \
+  touch /app/src/crates/usecases/src/lib.rs; \
+  touch /app/src/main.rs; \
+  cargo build --target x86_64-pc-windows-gnu'
 
 FROM debian:latest AS exporter
 COPY --from=builder /app/target/x86_64-pc-windows-gnu/debug/asya.exe /asya.exe
