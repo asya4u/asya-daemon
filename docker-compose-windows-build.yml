@@ -1,0 +1,10 @@
+services:
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: asya-windows-builder
+    volumes:
+      - ./target/windows-cross-build:/output
+    entrypoint: /bin/sh
+    command: -c "cp /asya.exe /output/"
